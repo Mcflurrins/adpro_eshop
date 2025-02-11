@@ -43,4 +43,19 @@ public class ProductController {
         return "redirect:/product/list";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editProductPage(@PathVariable String id, Model model) {
+        Optional<Product> product = service.findById(id);
+        if (product.isPresent()) {
+            model.addAttribute("product", product.get());  // Ensure "product" is set
+            return "EditProduct";
+        }
+        return "redirect:/product/list";
+    }
+
+    @PostMapping("/edit")
+    public String editProduct(@ModelAttribute Product product) {
+        service.edit(product);
+        return "redirect:/product/list";
+    }
 }
