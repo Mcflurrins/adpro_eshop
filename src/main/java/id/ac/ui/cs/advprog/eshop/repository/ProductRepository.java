@@ -4,6 +4,7 @@ import id.ac.ui.cs.advprog.eshop.model.Product;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,5 +25,17 @@ public class ProductRepository {
         return productData.removeIf(product -> product.getProductId().equals(productId));
     }
 
+    public Optional<Product> findById(String productId) {
+        return productData.stream()
+                .filter(product -> product.getProductId().equals(productId))
+                .findFirst();
+    }
 
+    public Product edit(Product editedProduct) {
+        findById(editedProduct.getProductId()).ifPresent(existingProduct -> {
+            existingProduct.setProductName(editedProduct.getProductName());
+            existingProduct.setProductQuantity(editedProduct.getProductQuantity());
+        });
+        return editedProduct;
+    }
 }
