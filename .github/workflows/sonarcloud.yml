@@ -31,8 +31,7 @@ name: SonarCloud analysis
 on:
   push:
     branches:
-      - "main"
-      - "module-2-exercise"
+      - "**"
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
