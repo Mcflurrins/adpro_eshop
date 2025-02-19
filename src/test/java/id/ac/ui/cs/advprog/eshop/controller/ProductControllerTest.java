@@ -13,7 +13,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class ProductControllerTest {
+class ProductControllerTest {
 
     @Mock
     private ProductService productService;
@@ -25,19 +25,19 @@ public class ProductControllerTest {
     private ProductController productController;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testCreateProductPage() {
+    void testCreateProductPage() {
         String viewName = productController.createProductPage(model);
         verify(model).addAttribute(eq("product"), any(Product.class));
         assertEquals("CreateProduct", viewName);
     }
 
     @Test
-    public void testCreateProductPost() {
+    void testCreateProductPost() {
         Product product = new Product();
         String result = productController.createProductPost(product);
         verify(productService).create(product);
@@ -45,7 +45,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void testListProduct() {
+    void testListProduct() {
         when(productService.findAll()).thenReturn(Arrays.asList(new Product(), new Product()));
         String viewName = productController.listProduct(model);
         verify(model).addAttribute(eq("products"), anyList());
@@ -53,14 +53,14 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void testDeleteProduct() {
+    void testDeleteProduct() {
         String result = productController.deleteProduct("123");
         verify(productService).delete("123");
         assertEquals("redirect:/product/list", result);
     }
 
     @Test
-    public void testEditProductPageWithExistingProduct() {
+    void testEditProductPageWithExistingProduct() {
         Product product = new Product();
         when(productService.findById("123")).thenReturn(Optional.of(product));
         String viewName = productController.editProductPage("123", model);
@@ -69,14 +69,14 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void testEditProductPageWithNonExistingProduct() {
+    void testEditProductPageWithNonExistingProduct() {
         when(productService.findById("123")).thenReturn(Optional.empty());
         String viewName = productController.editProductPage("123", model);
         assertEquals("redirect:/product/list", viewName);
     }
 
     @Test
-    public void testEditProduct() {
+    void testEditProduct() {
         Product product = new Product();
         String result = productController.editProduct(product);
         verify(productService).edit(product);

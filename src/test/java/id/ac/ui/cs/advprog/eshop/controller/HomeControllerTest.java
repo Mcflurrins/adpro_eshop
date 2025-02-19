@@ -3,10 +3,10 @@ package id.ac.ui.cs.advprog.eshop.controller;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class HomeControllerTest {
+class HomeControllerTest {
 
     @Test
-    public void testHomePage() {
+    void testHomePage() {
         HomeController homeController = new HomeController();
         String viewName = homeController.homePage();
         assertEquals("Homepage", viewName);

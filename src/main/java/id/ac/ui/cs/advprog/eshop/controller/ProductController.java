@@ -2,7 +2,6 @@ package id.ac.ui.cs.advprog.eshop.controller;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +12,16 @@ import java.util.List;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
+    // Fixed Issue from SonarCloud: Define a constant instead of duplicating this literal "redirect:/product/list" 4 times
+    // made new variable instead
+    private static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
 
-    @Autowired
-    private ProductService service;
+    // Fixed issue from Sonarcloud: Remove this field injection and use constructor injection instead.
+    private final ProductService service;
+
+    public ProductController(ProductService service) { // Constructor injection
+        this.service = service;
+    }
 
     @GetMapping("/create")
     public String createProductPage(Model model) {
@@ -27,7 +33,7 @@ public class ProductController {
     @PostMapping("/create")
     public String createProductPost(@ModelAttribute Product product) {
         service.create(product);
-        return "redirect:/product/list";
+        return REDIRECT_PRODUCT_LIST;
     }
 
     @GetMapping("/list")
@@ -40,22 +46,22 @@ public class ProductController {
     @PostMapping("/delete/{id}")
     public String deleteProduct(@PathVariable String id) {
         service.delete(id);
-        return "redirect:/product/list";
+        return REDIRECT_PRODUCT_LIST;
     }
 
     @GetMapping("/edit/{id}")
     public String editProductPage(@PathVariable String id, Model model) {
         Optional<Product> product = service.findById(id);
         if (product.isPresent()) {
-            model.addAttribute("product", product.get());  // Ensure "product" is set
+            model.addAttribute("product", product.get());
             return "EditProduct";
         }
-        return "redirect:/product/list";
+        return REDIRECT_PRODUCT_LIST;
     }
 
     @PostMapping("/edit")
     public String editProduct(@ModelAttribute Product product) {
         service.edit(product);
-        return "redirect:/product/list";
+        return REDIRECT_PRODUCT_LIST;
     }
 }
