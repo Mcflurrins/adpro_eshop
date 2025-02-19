@@ -30,6 +30,12 @@ class ProductControllerTest {
     }
 
     @Test
+    void testConstructor() {
+        ProductController controller = new ProductController(productService);
+        assertNotNull(controller); // Ensuring constructor is covered
+    }
+
+    @Test
     void testCreateProductPage() {
         String viewName = productController.createProductPage(model);
         verify(model).addAttribute(eq("product"), any(Product.class));
