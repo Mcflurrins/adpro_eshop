@@ -21,11 +21,13 @@ If I made a new functional test suite in addition to CreateProductFunctionalTest
 </details>
 
 <details>
-  <summary> Module 2 </summary>
+  <summary> 🔖 Module 2 </summary>
 
- ### Reflection 1 
+ ### 📌 Reflection 1 
  1. I fixed one of the code quality fixes highlighted by Sonarcloud by omitting the use of 'public' keyword in the test files within the controller directory. According to SonarCloud, this was a code quality issue because JUnit 5 no longer requires the use of the 'public' keyword. This change has been implemented since the JUnit 5 default access modifier has been changed to package-private. In a stack overflow forum I found, Sam Branner, part of the JUnit 5 maintanence team says this is because the team believes in the principle of "less is more" when it comes to coding. Apart from that, I also added an assertion to the test in EshopApplicationTests.java as recommended by SonarCloud.
 
- 2. The CI/CD workflows I've implemented has met the defintion of Continuous Integration and Continuous Deployment. With the github workflow scripts in my code, when a push happens, the code is immediately tested and analyzed for code smells (continuous integration). I have also put my repository on Koyeb and set it to auto-deploy (continuous  deployment). However, this was done without a script on my github workflows directory. This is due to the limitation of Koyeb's free plan, as discussed in the helpdesk of the AdvProg discord. 
+ 2. The CI/CD workflows I've implemented has met the defintion of Continuous Integration and Continuous Deployment. With the github workflow scripts in my code, when a push happens, the code is immediately tested and analyzed for code smells (continuous integration). I have also put my repository on Koyeb and set it to auto-deploy (continuous  deployment). However, this was done without a script on my github workflows directory. This is due to the limitation of Koyeb's free plan, as discussed in the helpdesk of the AdvProg discord.
+
+Note: The koyeb deployment link is attached to the github repo below the description :D
 
 </details>
