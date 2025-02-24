@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface CarService {
 
-    public Car createCar(Car car);
+    public Car create(Car car);
 
     public List<Car> findAll();
 

@@ -12,7 +12,7 @@ public class CarServiceImpl implements CarService {
     @Autowired
     private CarRepository carRepository;
     @Override
-    public Car createCar(Car car) {
+    public Car create(Car car) {
         carRepository.create(car);
         return car;
     }
