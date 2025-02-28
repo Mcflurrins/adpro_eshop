@@ -33,7 +33,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car update(String carId, Car car) {
-        return carRepository.update(carId, car); // Ensure repository returns the updated Car
+        return carRepository.update(carId, car);
     }
 
     @Override
