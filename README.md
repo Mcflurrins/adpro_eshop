@@ -31,3 +31,30 @@ If I made a new functional test suite in addition to CreateProductFunctionalTest
 Note: The koyeb deployment link is attached to the github repo below the description :D
 
 </details>
+
+<details>
+  <summary> 🔖 Module 3 </summary>
+
+ ### 📌 Reflection 1 
+The SOLID principlese I applied in my project are: 
+#### SRP: Single Responsibility Principle
+The Single Responsibility Principle means that each Java Class should have only one function. Now, in the pre-existing base code I noticed that the ProductController class was not only acting as a controller for the Product Class, but also as a parent to the CarController class which extends it. To fix this, I made the CarController class its own independent class and put it in a separate module. 
+
+#### OCP: Open Closed Principle
+The Open-Closed Principle means a software artifact should be open for extension but closed for modification. For example, in the service folder, we initially had a CarService interface and a ProductService interface. 
+They both essentially had the same functionality but for handling different object classes, so I made a new GeneralService Interface which covers both their methods. This makes the interface open for extension, e.g.
+if we want to make a similar third service, like MotorService.
+
+#### LSP: Liskov Substitution Principle
+The Liskov Substitution Principle says: "Derived or child classes must be substitutable for their base or parent classes." When I made that GeneralService Interface earlier, a ton of errors popped up because it turns out that
+even though CarService and ProductService had the same find, edit and delete functionality, the way they were each implemented was inconsistent. ProductService's update function was called 'edit' and returned an object, while CarService's was called 'update' and returned nothing. 
+ProductService's deletion function was called 'delete', while in CarService it was 'deleteByCarId'. In ProductService, the finding function returned an Optional Product, while in CarService it returned only Car. 
+These inconsistencies mean that the child classes can't substitute the new parent class GeneralService, so I altered the find, edit and delete functionality in order to accomodate for that, making minor changes to Product and Car's Repositories and Controllers. 
+
+#### DIP: Dependency Inversion Principle
+The Dependency Inversion Principle suggests that high-level modules should not rely on low-level modules directly, and instead, both should communicate through an abstraction. By implementing the GeneralService interface, we have also enforced this principle. 
+Earlier, CarService
+
+
+</details>
+
