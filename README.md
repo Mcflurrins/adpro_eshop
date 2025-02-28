@@ -36,25 +36,49 @@ Note: The koyeb deployment link is attached to the github repo below the descrip
   <summary> 🔖 Module 3 </summary>
 
  ### 📌 Reflection 1 
-The SOLID principlese I applied in my project are: 
+ #### Explain what principles you apply to your project!
+
+The SOLID principles I applied in my project are: 
 #### SRP: Single Responsibility Principle
 The Single Responsibility Principle means that each Java Class should have only one function. Now, in the pre-existing base code I noticed that the ProductController class was not only acting as a controller for the Product Class, but also as a parent to the CarController class which extends it. To fix this, I made the CarController class its own independent class and put it in a separate module. 
 
 #### OCP: Open Closed Principle
 The Open-Closed Principle means a software artifact should be open for extension but closed for modification. For example, in the service folder, we initially had a CarService interface and a ProductService interface. 
-They both essentially had the same functionality but for handling different object classes, so I made a new GeneralService Interface which covers both their methods. This makes the interface open for extension, e.g.
-if we want to make a similar third service, like MotorService.
+They both essentially had the same functionality but for handling different object classes, so I made a new GeneralService Interface which covers both their methods. This makes the interface open for extension, e.g. if we want to make a similar third service, like MotorService.
+I also implemented this by making a CarRepositoryInterface and a ProductRepositoryInterface. Now, if we need to change the implementation of these repositories, we can extend a new class instead of modifying CarRepository and ProductRepository directly.
 
 #### LSP: Liskov Substitution Principle
 The Liskov Substitution Principle says: "Derived or child classes must be substitutable for their base or parent classes." When I made that GeneralService Interface earlier, a ton of errors popped up because it turns out that
 even though CarService and ProductService had the same find, edit and delete functionality, the way they were each implemented was inconsistent. ProductService's update function was called 'edit' and returned an object, while CarService's was called 'update' and returned nothing. 
 ProductService's deletion function was called 'delete', while in CarService it was 'deleteByCarId'. In ProductService, the finding function returned an Optional Product, while in CarService it returned only Car. 
-These inconsistencies mean that the child classes can't substitute the new parent class GeneralService, so I altered the find, edit and delete functionality in order to accomodate for that, making minor changes to Product and Car's Repositories and Controllers. 
+These inconsistencies mean that the child classes can't substitute the new parent class GeneralService, so I altered the find, edit and delete functionality in order to accomodate for that, making minor changes to Product and Car's Repositories and Controllers. For the same reason, I made CarRepositoryInterface and a ProductRepositoryInterface extend a GeneralRepositoryInterface.
 
 #### DIP: Dependency Inversion Principle
-The Dependency Inversion Principle suggests that high-level modules should not rely on low-level modules directly, and instead, both should communicate through an abstraction. By implementing the GeneralService interface, we have also enforced this principle. 
-Earlier, CarService
+The Dependency Inversion Principle suggests that high-level modules should not rely on low-level modules directly, and instead, both should communicate through an abstraction. 
 
+The CarServiceImpl and ProductServiceImpl directly depended on concrete repository classes, like this for example:
+```
+@Autowired
+private CarRepository carRepository;
+```
+but now, they depend on the abstract repository interface, like this:
+```
+@Autowired
+private CarRepositoryInterface carRepository;
+```
+This allows us to make changes to the implementation (the repository) without changing the service layer. :)
+
+ ### 📌 Reflection 2
+ #### Explain the advantages of applying SOLID principles to your project with examples.
+1. Better Organization: For example, separating CarController into its own class and module helps with improving code readability and also keeps it maintainable. When we add too many features and functionality into one class, it results in lengthy and complex code which is a burden to modify later on. These smaller and better-structured classes are easier to navigate too! :D
+2. Prevents Introduction of New Bugs: The implementation of the repository interfaces allows me to extend the behavior of, say, CarRepository, without having to change it directly. The act of extending instead of directly modifying existing code will help prevent the introduction of new bugs into an already functioning application.
+3. Enhances Flexibility: The implementation of the repository interfaces (CarRepositoryInterface and ProductRepositoryInterface) allows us to make changes to it without having to also modify the service layer - they are abstractions which enhance flexibility in coding and separates concerns between high-level and low-level modules. 
+
+ ### 📌 Reflection 3
+ #### Explain the advantages of applying SOLID principles to your project with examples.
+1. Inconsistent code: Without applying SOLID principles, code can easily get repetitive and inconsistent. For example, the CarService and ProductService used to have basically the same CRUD functionality, but they would each return different objects and have differing function names. This might result in poor readability and slow down maintenance.
+2. Difficult to add new features: Now that I have implemented a generic GeneralService interface, if I wanted to make a third interface like OrderService, then I could simply extend it from the GeneralService interface. However, if this had not been done, making a third interface would be a lot more cumbersome and full of repetitive code.
+3. Tightly Coupled Code: Without separate interfaces, ProductService might directly depend on CarService, making modifications to one class affect the other. This increases the risk of unintended side effects.
 
 </details>
 
