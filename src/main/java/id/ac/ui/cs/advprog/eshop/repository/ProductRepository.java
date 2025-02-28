@@ -31,11 +31,12 @@ public class ProductRepository {
                 .findFirst();
     }
 
-    public Product edit(Product editedProduct) {
-        findById(editedProduct.getProductId()).ifPresent(existingProduct -> {
-            existingProduct.setProductName(editedProduct.getProductName());
-            existingProduct.setProductQuantity(editedProduct.getProductQuantity());
+    public Product update(String productId, Product updatedProduct) {
+        Optional<Product> existingProduct = findById(productId);
+        existingProduct.ifPresent(product -> {
+            product.setProductName(updatedProduct.getProductName());
+            product.setProductQuantity(updatedProduct.getProductQuantity());
         });
-        return editedProduct;
+        return existingProduct.orElse(null); // Return updated product or null if not found
     }
 }

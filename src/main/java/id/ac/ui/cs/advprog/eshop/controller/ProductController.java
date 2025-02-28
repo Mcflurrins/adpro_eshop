@@ -63,7 +63,7 @@ public class ProductController {
 
     @PostMapping("/edit")
     public String editProduct(@ModelAttribute Product product) {
-        service.edit(product);
+        service.update(product.getProductId(), product);
         return REDIRECT_PRODUCT_LIST;
     }
 }

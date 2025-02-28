@@ -1,13 +1,11 @@
 package id.ac.ui.cs.advprog.eshop.controller;
-import id.ac.ui.cs.advprog.eshop.service.CarService;
 import id.ac.ui.cs.advprog.eshop.model.Car;
 import id.ac.ui.cs.advprog.eshop.service.CarServiceImpl;
-import id.ac.ui.cs.advprog.eshop.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/car")
@@ -40,9 +38,12 @@ public class CarController  {
 
     @GetMapping("/editCar/{carId}")
     public String editCarPage(@PathVariable String carId, Model model) {
-        Car car = carService.findById(carId);
-        model.addAttribute("car", car);
-        return "editCar";
+        Optional<Car> car = carService.findById(carId);
+        if (car.isPresent()) {
+            model.addAttribute("car", car.get());
+            return "editCar";
+        }
+        return null;
     }
 
     @PostMapping("/editCar")
@@ -54,7 +55,7 @@ public class CarController  {
 
     @PostMapping("/deleteCar")
     public String deleteCar(@RequestParam("carId") String carId) {
-        carService.deleteCarById(carId);
+        carService.delete(carId);
         return "redirect:listCar";
     }
 }
