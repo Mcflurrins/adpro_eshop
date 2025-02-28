@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -26,18 +27,18 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car findById(String carId) {
-        Car car = carRepository.findById(carId);
-        return car;
+    public Optional<Car> findById(String carId) {
+        return Optional.ofNullable(carRepository.findById(carId));
     }
 
     @Override
-    public void update(String carId, Car car) {
-        carRepository.update(carId, car);
+    public Car update(String carId, Car car) {
+        return carRepository.update(carId, car); // Ensure repository returns the updated Car
     }
 
     @Override
-    public void deleteCarById(String carId) {
+    public boolean delete(String carId) {
         carRepository.delete(carId);
+        return true;
     }
 }
