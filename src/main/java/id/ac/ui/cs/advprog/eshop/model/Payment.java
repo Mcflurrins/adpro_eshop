@@ -11,25 +11,31 @@ public class Payment {
     private String status;
     private Map<String, String> paymentData;
 
-
     public Payment(String id, String method, Map<String, String> paymentData) {
         this.id = id;
         this.method = method;
         this.paymentData = paymentData;
-        this.status = evaluateStatus();
+        this.status = determineStatus();
     }
 
-    private String evaluateStatus() {
+    private String determineStatus() {
         if ("VoucherCode".equals(method)) {
-            String code = paymentData.get("voucherCode");
-            return (code != null && code.length() == 16 && code.startsWith("ESHOP") &&
-                    code.chars().filter(Character::isDigit).count() == 8) ? "SUCCESS" : "REJECTED";
+            return validateVoucherCode(paymentData.get("voucherCode")) ? "SUCCESS" : "REJECTED";
         }
         if ("CashOnDelivery".equals(method)) {
-            return (!paymentData.getOrDefault("address", "").trim().isEmpty() &&
-                    !paymentData.getOrDefault("deliveryFee", "").trim().isEmpty()) ? "SUCCESS" : "REJECTED";
+            return validateCashOnDelivery(paymentData) ? "SUCCESS" : "REJECTED";
         }
         return "REJECTED";
+    }
+
+    private boolean validateVoucherCode(String code) {
+        return code != null && code.length() == 16 && code.startsWith("ESHOP") &&
+                Pattern.compile("\\d").matcher(code).results().count() == 8;
+    }
+
+    private boolean validateCashOnDelivery(Map<String, String> data) {
+        return data.get("address") != null && !data.get("address").isEmpty() &&
+                data.get("deliveryFee") != null && !data.get("deliveryFee").isEmpty();
     }
 
     public void setStatus(String status) {
