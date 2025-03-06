@@ -85,7 +85,7 @@ class ProductControllerTest {
     void testEditProduct() {
         Product product = new Product();
         String result = productController.editProduct(product);
-        verify(productService).edit(product);
+        verify(productService).update(eq(product.getProductId()), eq(product));
         assertEquals("redirect:/product/list", result);
     }
 }

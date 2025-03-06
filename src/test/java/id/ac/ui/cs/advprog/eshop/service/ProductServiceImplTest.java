@@ -94,14 +94,26 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void testEdit() {
-        Product product = new Product();
-        when(productRepository.edit(product)).thenReturn(product);
+    void testUpdate() {
+        String productId = "eb558e9f-1c39-460e-8860-71af6af63bd6";
+        Product existingProduct = new Product();
+        existingProduct.setProductId(productId);
+        existingProduct.setProductName("Sampo Cap Bambang");
+        existingProduct.setProductQuantity(100);
 
-        Product updatedProduct = productService.edit(product);
+        Product updatedProduct = new Product();
+        updatedProduct.setProductName("Sampo Cap Skibidi");
+        updatedProduct.setProductQuantity(150);
 
-        assertNotNull(updatedProduct);
-        assertEquals(product, updatedProduct);
-        verify(productRepository, times(1)).edit(product);
+        when(productRepository.findById(productId)).thenReturn(Optional.of(existingProduct));
+        when(productRepository.update(eq(productId), any(Product.class))).thenReturn(updatedProduct);
+
+        Product result = productService.update(productId, updatedProduct);
+
+        assertNotNull(result);
+        assertEquals("Sampo Cap Skibidi", result.getProductName());
+        assertEquals(150, result.getProductQuantity());
+
+        verify(productRepository, times(1)).update(eq(productId), any(Product.class));
     }
 }

@@ -79,7 +79,7 @@ class ProductRepositoryTest {
         editedProduct.setProductName("Sampo Cap skibidi");
         editedProduct.setProductQuantity(150);
 
-        productRepository.edit(editedProduct);
+        productRepository.update(editedProduct.getProductId(), editedProduct);
         Iterator<Product> productIterator = productRepository.findAll();
         Product savedProduct = productIterator.next();
 
@@ -95,7 +95,7 @@ class ProductRepositoryTest {
         product.setProductName("nuh-uh");
         product.setProductQuantity(100);
 
-        productRepository.edit(product);
+        productRepository.update(product.getProductId(), product);
         Iterator<Product> productIterator = productRepository.findAll();
         while (productIterator.hasNext()) {
             Product savedProduct = productIterator.next();
