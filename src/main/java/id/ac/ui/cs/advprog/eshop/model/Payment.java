@@ -3,16 +3,19 @@ package id.ac.ui.cs.advprog.eshop.model;
 import lombok.Getter;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.UUID;
 
 @Getter
 public class Payment {
-    private String id;
-    private String method;
+    private final String id;  // Automatically generated
+    private final Order order;
+    private final String method;
     private String status;
-    private Map<String, String> paymentData;
+    private final Map<String, String> paymentData;
 
-    public Payment(String id, String method, Map<String, String> paymentData) {
-        this.id = id;
+    public Payment(Order order, String method, Map<String, String> paymentData) {
+        this.id = UUID.randomUUID().toString(); // Generate a unique ID
+        this.order = order;
         this.method = method;
         this.paymentData = paymentData;
         this.status = determineStatus();
