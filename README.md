@@ -82,3 +82,46 @@ This allows us to make changes to the implementation (the repository) without ch
 
 </details>
 
+<details>
+<summary>
+🔖 Module 4
+</summary>
+
+#### Do I have enough functional tests to reassure myself that my application really works, from the point of view of the user?
+I believe my current tests cover many of the critical functionalities that a user would rely on, like order creation, status updates, and the correctness of creating orders and payments. However, while unit tests ensure that individual components behave as expected, they don’t always capture the full picture of the user experience, so maybe moving fforward I could add some functional tests to really simulate an end-to-end experience of using the app.
+
+#### Am I testing all the edge cases thoroughly?
+My tests already cover a good range of edge cases, including invalid inputs, empty product lists, and inappropriate status values, which helps in catching many potential bugs. That said, software rarely behaves perfectly in every unforeseen situation, so there might be additional edge cases that I haven’t yet addressed.
+
+#### Do I have tests that check whether all my components fit together properly? Could some integrated tests do this, or are functional tests enough?
+While my unit tests check that each component works well on its own, they don't really guarantee that components will integrate seamlessly. A set of integration tests, which simulate real interactions between components, can catch issues that only appear when the whole system is used. Therefore, even if functional tests provide a solid baseline, also adding integration tests would give me more confidence that everything works together correctly.
+
+#### Are my tests giving me the confidence to refactor my code, fearlessly and frequently?
+Yes, the tests are like a safety net that enables me to refactor my code without worrying too much about breaking existing functionality. When I make changes or improvements, the tests quickly alert me for any bugs so I can code in peace.
+
+#### Are my tests helping me to drive out a good design? If I have a lot of integration tests but less unit tests, do I need to make more unit tests to get better feedback on my code design?
+The tests I’ve written so far have helped in developing good design by enforcing clear boundaries between components. While integration tests help ensure that the overall system works, unit tests are more effective at pinpointing issues in specific modules, giving more feedback on code design per the module being tested.
+
+#### Are my feedback cycles as fast as I would like them? When do I get warned about bugs, and is there any practical way to make that happen sooner?
+Yeah,my unit tests run really fast and give me feedback as I develop. However, the integration tests can take longer to execute, which might slow down the overall feedback cycle. To mitigate this, the fast unit tests are run locally, while the integration tests run in the continuous integration pipeline, as implemented in module 2. This way, I’m warned about bugs immediately during development and still get comprehensive checks later.
+
+#### Is there some way that I could write faster integration tests that would get me feedback quicker?
+To speed up my integration tests, I could look into using in-memory databases or containerized services that mimic the production environment. Additionally, optimizing the test data and testing only the critical user flows can help reduce execution time.
+
+#### Can I run a subset of the full test suite when I need to?
+Yes, I can run only a subset of the full test suite, which is why there's multiple folders (like model, repository, service, functional, etc.) in the test directory, so that I can conveniently test only a subset of the full test suite.
+
+#### Am I spending too much time waiting for tests to run, and thus less time in a productive flow state?
+Not really, I think my tests run pretty quick, so I can continue working on my productive implementations with consistent feedback.
+
+| F.I.R.S.T Principle | Reflection & Next Steps                                                                                                                                                          |
+|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Fast** | Most of my unit tests run quickly, which is great, but some integration tests slow things down. I can mitigate this by running smaller test subsets locally for faster feedback. |
+| **Independent** | My tests are mostly independent. Moving forward, I need to stay mindful of hidden dependencies and refactor if any tests start relying on shared state.                          |
+| **Repeatable** | The tests give consistent results across local and CI environments, which is a good sign. To keep it that way, I need to ensure external dependencies are mocked properly.       |
+| **Self-Validating** | The tests provide clear pass/fail feedback, making debugging easier. I should continue writing strong assertions and detailed failure messages for better clarity.               |
+| **Timely** | Writing tests alongside development helped catch issues early. Moving forward, this helps me code productively faster.                                                           |
+
+
+</details>
+
